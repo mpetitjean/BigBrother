@@ -1,0 +1,96 @@
+\documentclass[12pt,english]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{setspace}
+\usepackage{siunitx}
+\usepackage{minted}
+\usepackage{blindtext}
+\usepackage{todonotes}
+\geometry{
+a4paper,
+left=25mm,
+right=25mm,
+top=25mm,
+bottom=25mm,
+}
+\usepackage{babel}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{units}
+\usepackage{standalone}
+\usepackage{tikzscale}
+\makeatletter
+\pgfplotsset{
+  unit code/.code 2 args=
+    \begingroup
+    \protected@edef\x{\endgroup\si{#2}}\x
+}
+\makeatother
+\renewcommand{\baselinestretch}{1.1} 
+\newcommand{\Hvec}{\vec{H}}
+\newcommand{\Evec}{\vec{E}}
+\renewenvironment{cases}
+{ \left\{\begin{aligned} }
+{ \end{aligned}\right. }
+\renewcommand{\epsilon}{\varepsilon}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+
+\begin{titlepage}
+	{\setstretch{1.0}
+
+\includegraphics[width=\textwidth]{img/Logos.pdf} \hspace{4.5cm}
+
+\vspace{1 cm}
+\large
+
+\begin{tabular}{lr}
+\begin{minipage}[t]{0.5\textwidth}
+{\small\textsc{Brussels Faculty of Enginering} \\[1ex]
+Université Libre de Bruxelles\\[1ex]
+Vrije Universiteit van Brussel\\[1ex]}
+\end{minipage} & \begin{minipage}[t]{0.45\textwidth}
+\begin{flushright}
+{\small Academic Year 2017-2018}
+\end{flushright}
+\end{minipage}
+\end{tabular}
+
+\vspace{\stretch{2}}
+\begin{center}
+\Large 
+\textbf{Project Report} \\Data De-Anonymisation using Machine Learning\\
+\vspace{3 cm}
+\large
+Cédric Hannotier, Mathieu Petitjean, Hasan Can Yildirim\\ 
+\end{center}
+
+
+\vspace{\stretch{2}}
+
+\begin{minipage}[t]{\textwidth}
+\normalsize \textbf{ELEC-Y591}: Machine Learning and Big Data Processing\\[1.5ex]
+\end{minipage}
+}
+
+\end{titlepage}
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+%\thispagestyle{plain}
+\setcounter{page}{1}
+
+\input{sections/intro.tex}
+
+\input{sections/state.tex}
+
+
+
+\end{document}
