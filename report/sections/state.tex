@@ -2,18 +2,19 @@
 
 \subsection{De-anonymization attacks}
 
-One of the most mentioned de-anonymization deeds dates back to 2006, when New York Times journalists identified Thelma Arnold in the "anonymized" search queries released by AOL for research purposes \cite{nytimes}. By manually searching in the 20 millions search queries coming from 657,000 users, the reporters could tie her identity to some quite embarrassing queries.
+One of the most mentioned de-anonymization deeds dates back to 2006, when New York Times journalists identified Thelma Arnold in the "anonymized" search queries released by AOL for research purposes \cite{nytimes}. By manually searching in the 20 millions search queries coming from 657,000 users, the reporters could tie Arnold's identity to some quite embarrassing queries.
 
-The computer-aided attacks, being able to push such results to a much larger scale, can be separated in several categories depending on their approach. In each case, the attacker has access to a dataset that he is looking to de-anonymize, and \textit{auxiliary information}. This additional information can be used is several ways, such as \cite{survey}:
+The computer-aided attacks, being able to push such results to a much larger scale, can be separated in several categories depending on their approach. The two most represented methods are\cite{survey}:
 
 \begin{itemize}
-	\item \textbf{Graph matching} is the most common approach in the case of social network de-anonymisation studies. 
-	\item ...
+	\item \textbf{Graph matching} is the most common approach in the case of social network de-anonymisation studies and is based on social graphs. One meaningful example is in \cite{graph_twitter}, where Flicker and Twitter accounts were linked together with a 12\% error rate. Several complex strategies can be used to improve graph matching, such as Seed \& Grow \cite{seed} or Threading \cite{threading}.
+	
+	\item \textbf{Similarity matching} is based on similar features between the target and auxiliary information. In \cite{tweets}, users were de-anonymised using the similarity between tweets and the content of their resume. In \cite{homicide}, victims of homicides were re-identified using "anonymous" homicides public records of Chicago and records in the Social Security Death Index.
 \end{itemize}
 
 \subsection{The Netflix case}
 
-The attack that will be reproduced is the one presented in \cite{netflix}. In this paper, researchers attacked a dataset released by Netflix in the context of a contest to improve their recommendation system. The 100 millions movie ratings by over 480,000 users were correlated to another movie rating database: the Internet Movie Database (IMDb). In a very small sample of the IMDb (50 users only), 2 users of the Netflix dataset were identified with statistical quasi-certainty. As the authors summarized, given a few of an user's reviews that he chose to make \textit{public}, their algorithm is able to access all of his \textit{private} Netflix ratings. 
+The attack that will be reproduced is the one presented in \cite{netflix}, an example of similarity matching. In this paper, researchers attacked a dataset released by Netflix in the context of a contest to improve their recommendation system. The 100 millions movie ratings by over 480,000 users were correlated to another movie rating database: the Internet Movie Database (IMDb). In a very small sample of the IMDb (50 users only), 2 users of the Netflix dataset were identified with statistical quasi-certainty. As the authors summarized, given a few of an user's reviews that he chose to make \textit{public}, their algorithm is able to access all of his \textit{private} Netflix ratings. 
 
 The algorithm is based on the similarity measure denoted $Sim$. It is defined, for two records $r_1$ and $r_2$, with $supp$ denoting the non-null attributes of a record:
 
@@ -21,14 +22,48 @@ The algorithm is based on the similarity measure denoted $Sim$. It is defined, f
 	Sim(r_1, r_2) = \frac{\sum Sim(r_{1i}, r_{2i})}{\lvert supp(r_1) \cup supp(r_2) \rvert}
 \end{equation} 
 
-The function $Sim$ maps the records $r_1$ and $r_2$ to an interval $[0,1]$, representing the notion of them being similar. This concept now needs to be adapted to the specific content of a movie review dataset. In particular, the scoring function needs to give higher weight to statistically rare attributes. Indeed, a review on "The Longest Most Meaningless Movie in the World\footnote{See its IMDb page: \url{https://www.imdb.com/title/tt0342707/}}" helps identify a user much more than the knowledge of the fact that he liked the last episode of "Game of Thrones". The final scoring function that was used in \cite{netflix} is:
+The function $Sim$ maps the records $r_1$ and $r_2$ to an interval $[0,1]$, representing the notion of them being similar. This concept now needs to be adapted to the specific content of a movie review dataset. In particular, the scoring function needs to give higher weight to statistically rare attributes. Indeed, a review on "The Longest Most Meaningless Movie in the World\footnote{See its Wikipedia page: \url{https://en.wikipedia.org/wiki/The_Longest_Most_Meaningless_Movie_in_the_World}}" helps identify a user much more than the knowledge of the fact that he liked the last episode of "Game of Thrones". The final scoring function that was used in \cite{netflix} is:
 
-\begin{equation}
+\begin{equation}\label{eq:score}
 	Score(r,aux) = \sum_{i \in supp(aux)} \frac{1}{\log\lvert supp(i) \rvert} \left( e^{\frac{\rho_i - \rho_i' }{\rho_0}} + e^{\frac{d_i - d_i' }{d_0}}\right)
 \end{equation}
 
 In the $Score$ function that compares a record $r$ and auxiliary information $aux$, $\rho$ and $\rho'$ denote the score given to the same movie, while $d$ and $d'$ refer to the date of the rating. $\rho_0$ and $d_0$ are constants empirically determined to respectively 1.5 and 30.
 
-Ultimately, two records are considered a match only if the difference between the best and second-best scores is higher than a second threshold, referred to as the eccentricity $\phi$. Again, its value was found experimentally to be 1.5 times the standard deviation. It is worth noting that the two matches with the 50 samples from IMDb had an eccentricity of respectively 28 and 15 ! 
+Ultimately, two records are considered a match only if the difference between the best and second-best scores is higher than a threshold, referred to as the eccentricity $\phi$. Its value was found experimentally to be 1.5 times the standard deviation. It is worth noting that the two matches with the 50 samples from IMDb had an eccentricity of respectively 28 and 15 ! These especially high numbers lead to the belief that two matches were found.
  
+In \cite{netflix-analytic}, theorems that formally demonstrate why the scoring expressed by \autoref{eq:score} works on the Netflix dataset were introduced. In addition to providing a mathematical framework, they propose another scoring algorithm, slightly less performing but based on more general assumptions. It is based on another similarity measure that is now asymmetrical, and that will be denoted $Sim2$: 
+
+\begin{equation}\label{eq:sim2}
+Sim2(r_1, r_2) = \frac{1}{\lvert supp(r_1) \rvert} \sum_{i \in supp(r_1)} T(r_1, r_2) = \frac{1}{\lvert supp(r_1) \rvert} \sum_{i \in supp(r_1)} \left( 1 - \frac{\lvert r_1(i) -r_2(i)}{p_i} \right)
+\end{equation} 
+
+In \autoref{eq:sim2}, $p$ is the maximum difference value between the values of the $i$\textsuperscript{th} column. It is used to scale the values of $Sim2$ to $[0,1]$. Then, the scoring is defined as:
+
+\begin{equation}\label{eq:score}
+Score(r,aux) = \sum_{i \in supp(aux)} \frac{1}{\log\lvert supp(i) \rvert} \frac{T(r,aux(i))}{m}
+\end{equation}
+
+In both \cite{netflix} and \cite{netflix-analytic}, the matching algorithm is the same (only the metrics that are used differ) and it is summarized in \autoref{alg:algo}.
+
+\begin{algorithm}[h]
+	\caption{Matching algorithm based on weighted scale scoring.}
+	\label{alg:algo}
+	\begin{algorithmic}[1]
+		\State Starting from datasets $R$ and $aux$
+		\newline
+		\For {each record $r_i$ in $R$}
+			\For {each entry $aux_i$ in $aux$}
+				\State Compute $Score(r_i,aux_i)$
+			\EndFor
+			\If {eccentricity > $\phi$}
+				\State Match found !
+			\EndIf
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+
+[Mention the difference between $Sim$ and $Sim2$, cfr Netflix ++ paper, definition 1]
+
 

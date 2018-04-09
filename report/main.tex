@@ -8,6 +8,7 @@
 \usepackage{minted}
 \usepackage{blindtext}
 \usepackage{todonotes}
+\usepackage{parskip}
 \geometry{
 a4paper,
 left=25mm,
@@ -47,6 +48,9 @@ bottom=25mm,
 
 \usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
 \addbibresource{references.bib}
+
+\usepackage{algpseudocode,algorithm,algorithmicx}
+\newcommand{\algorithmautorefname}{Algorithm}
 
 \begin{document}
 
@@ -89,7 +93,7 @@ Cédric Hannotier, Mathieu Petitjean, Hasan Can Yildirim\\
 
 \end{titlepage}
 \thispagestyle{empty}
-{ \hypersetup{hidelinks} \tableofcontents }
+{ \hypersetup{hidelinks} \tableofcontents \listoffigures}
 \newpage
 %\thispagestyle{plain}
 \setcounter{page}{1}
