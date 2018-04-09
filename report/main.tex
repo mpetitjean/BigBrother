@@ -33,13 +33,20 @@ bottom=25mm,
 }
 \makeatother
 \renewcommand{\baselinestretch}{1.1} 
-\newcommand{\Hvec}{\vec{H}}
-\newcommand{\Evec}{\vec{E}}
 \renewenvironment{cases}
 { \left\{\begin{aligned} }
 { \end{aligned}\right. }
-\renewcommand{\epsilon}{\varepsilon}
-\usepackage[hidelinks]{hyperref}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan,
+}
+
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\addbibresource{references.bib}
 
 \begin{document}
 
@@ -53,7 +60,7 @@ bottom=25mm,
 
 \begin{tabular}{lr}
 \begin{minipage}[t]{0.5\textwidth}
-{\small\textsc{Brussels Faculty of Enginering} \\[1ex]
+{\small\textsc{Brussels Faculty of Engineering} \\[1ex]
 Université Libre de Bruxelles\\[1ex]
 Vrije Universiteit van Brussel\\[1ex]}
 \end{minipage} & \begin{minipage}[t]{0.45\textwidth}
@@ -66,7 +73,7 @@ Vrije Universiteit van Brussel\\[1ex]}
 \vspace{\stretch{2}}
 \begin{center}
 \Large 
-\textbf{Project Report} \\Data De-Anonymisation using Machine Learning\\
+\textbf{Project Report} \\Data De-Anonymisation of the Netflix Prize dataset\\
 \vspace{3 cm}
 \large
 Cédric Hannotier, Mathieu Petitjean, Hasan Can Yildirim\\ 
@@ -82,7 +89,7 @@ Cédric Hannotier, Mathieu Petitjean, Hasan Can Yildirim\\
 
 \end{titlepage}
 \thispagestyle{empty}
-\tableofcontents
+{ \hypersetup{hidelinks} \tableofcontents }
 \newpage
 %\thispagestyle{plain}
 \setcounter{page}{1}
@@ -91,6 +98,14 @@ Cédric Hannotier, Mathieu Petitjean, Hasan Can Yildirim\\
 
 \input{sections/state.tex}
 
+\input{sections/approach.tex}
+
+\input{sections/results.tex}
+
+\input{sections/ccl.tex}
+
+\newpage
+\printbibliography
 
 
 \end{document}
