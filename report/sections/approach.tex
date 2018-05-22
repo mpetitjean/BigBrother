@@ -11,7 +11,7 @@ However, several differences with the original paper are to be highlighted. Firs
 	\item the terms and conditions of IMDb prohibit the usage of "data mining, robots, screen scraping, or similar data gathering and extraction tools”\footnote{see \url{https://www.imdb.com/conditions}}. It can be suspected that it is the reason only 50 entries we used in the original attack. 
 \end{itemize}
 
-As a workaround, we propose to use the MovieLens dataset as auxiliary information. MovieLens is a web-based movie recommender system that makes its database available for research. This database has already been used in privacy-related research, such as \cite{movielens}. As opposed to the IMDb case, the "anonymous" user IDs are consistent across all the movie ratings that are registered, which makes it suitable for the user re-identification. Also, it is the occasion to test another dataset against the Netflix one.
+As a workaround, we propose to use the MovieLens dataset as auxiliary information. MovieLens is a web-based movie recommender system that makes its database available for research \cite{movielens-db}. This database has already been used in privacy-related research, such as \cite{movielens}. As opposed to the IMDb case, the "anonymous" user IDs are consistent across all the movie ratings that are registered, which makes it suitable for the user re-identification. Also, it is the occasion to test another dataset against the Netflix one.
 
 Finally, due to the significant sizes of both the Netflix and MovieLens datasets (100 and 20 millions entries), it was necessary to subsample them. Results are expected to suffer from the reduced number of samples.
 
