@@ -1,1 +1,63 @@
 \section{Results}\label{sec:results}
+
+\subsection{Matching algorithm}
+
+The matching algorithm was run on the cleaned MovieLens dataset on a subset of the Netflix dataset containing the ratings of 36,147 users. The algorithm found matches with an eccentricity higher than 1.5 for 755 of the entries, and an histogram of the results is depicted in \autoref{fig:hist_matches}.
+
+\begin{figure}[h]
+	\centering
+	\input{img/hist_matches.tex}
+	\caption{Histogram of the found matches and their corresponding eccentricity.}
+	\label{fig:hist_matches}
+\end{figure}
+
+Unsurprisingly, most of the identified matches have a low $\phi$ regardless of being above the threshold. More than half of the potential matches have an eccentricity $\phi < 2.5$, casting reasonable doubt about the fact that those are indeed matching users. However, 4 matches have an eccentricity of more than 7, leading to the belief that de-anonymization was correctly carried out for those users.
+
+\subsection{Validation}
+
+In order to be able to conclude that de-anonymization is successful without the knowledge of the ground truth of matching users, a validation procedure is needed. It is proposed to include a dummy user in both database, with the same ratings and same timestamp for 30 movies. A functioning algorithm should identify a very strong match between the two entries.
+
+This was done for our algorithm and the movies were randomly chosen (the popularity of the involved movies has an impact on the scoring function). The resulting match had a mean eccentricity of FILL with a standard deviation of FILL. This confirms that entries that match perfectly yield a very high eccentricity. However, such a perfect situation is not expected. Some variability is present in the data, would it be due to user behavior or to noise voluntarily added in the datasets for anonymity purposes. Hence, the robustness to noise is studied next.  
+
+\subsection{Robustness analysis}
+
+Because noise is present in the data, the same dummy user is used to assess noise robustness. Instead of including exactly matching records, the ratings and timestamps will be perturbed with uniformly distributed noise. If a movie rating in one database is $\rho$, the corresponding rating in the other database is:
+
+\begin{equation}
+	\rho_{\text{noisy}} = \rho + \mathcal{U}\left[-\sigma_{\rho}, \sigma_{\rho}\right]
+\end{equation}
+
+Where $\mathcal{U}\left[-\sigma_{\rho}, \sigma_{\rho}\right]$ is a random variable uniformly distributed between $-\sigma_{\rho}$ and $\sigma_{\rho}$. Similarly, noise on the rating timestamp is introduced as:
+
+\begin{equation}
+d_{\text{noisy}} = d + \mathcal{U}\left[-\sigma_{d}, \sigma_{d}\right]
+\end{equation}
+
+The impact of the rating spread $\sigma_{\rho}$ on the eccentricity of the dummy user is shown in \autoref{fig:noise_rating}.
+
+\begin{figure}[h]
+	\centering
+	\input{img/noise_rating.tex}
+	\caption{Influence of noisy movie ratings on the eccentricity of a match.}
+	\label{fig:noise_rating}
+\end{figure}
+
+The impact of the timestamp spread $\sigma_{d}$ on the eccentricity of the dummy user is shown in \autoref{fig:noise_ts}.
+
+\begin{figure}[h]
+	\centering
+	\input{img/noise_ts.tex}
+	\caption{Influence of noisy time stamps on the eccentricity of a match.}
+	\label{fig:noise_ts}
+\end{figure}
+
+Another interesting factor influencing the scoring function is the amount of movies that are common for users in both databases. In the validation step, 30 common movies were injected in the data. However, this is a purely arbitrary value. The impact of the number of movies is depicted in \autoref{fig:n_movies}.
+
+\begin{figure}[h]
+	\centering
+	\input{img/n_movies.tex}
+	\caption{Influence of the amount of common movies on the eccentricity of a match. The dashed line highlights the $\phi = 1.5$ threshold.}
+	\label{fig:n_movies}
+\end{figure}
+
+The results exhibit a surprisingly low dependency on the amount of movies that a user has rated. Indeed, if only one movie was rated but the rating and timestamp have exactly the same values in both datasets, the eccentricity exceeds 1.5.
