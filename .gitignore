@@ -1,6 +1,5 @@
-src/data/Netflix
+src/data/
 *.csv
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -127,3 +126,5 @@ ENV/
 *.mtc1
 *.out
 *.synctex.gz
+
+!report/data/*
