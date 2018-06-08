@@ -2,7 +2,7 @@
 
 \subsection{Matching algorithm}
 
-The matching algorithm was run on the cleaned MovieLens dataset and on a subset of the Netflix dataset containing the ratings of FILL users. The algorithm found matches with an eccentricity higher than 1.5 for FILL of the entries, and an histogram of the results is depicted in \autoref{fig:hist_matches}.
+The matching algorithm was run on subsets of the cleaned MovieLens and Netflix datasets. In total, the subsets included around 3,600 Netflix users and 3,000 MovieLens users (more was not possible due to limited computing power). The algorithm found matches with an eccentricity higher than 1.5 for 819 pairs of users, and an histogram of the results is depicted in \autoref{fig:hist_matches}.
 
 \begin{figure}[h]
 	\centering
@@ -11,13 +11,13 @@ The matching algorithm was run on the cleaned MovieLens dataset and on a subset 
 	\label{fig:hist_matches}
 \end{figure}
 
-Unsurprisingly, most of the identified matches have a low $\phi$ regardless of being above the threshold. UPDATE amount of matches have an eccentricity $\phi < 2.5$, casting reasonable doubt about the fact that those are indeed matching users. However, FILL matches have an eccentricity of more than FILL, leading to the belief that de-anonymization was correctly carried out for those users.
+Unsurprisingly, most of the identified matches have a low $\phi$ regardless of being above the threshold. More than half the amount of matches have an eccentricity $\phi < 2.5$, casting reasonable doubt about the fact that those are indeed matching users. It is likely that the proposed threshold of 1.5 is too low for the used data. However, 5 matches have an eccentricity of more than 7, for which the belief that de-anonymization was correctly carried out is more plausible.
 
-\subsection{Validation}
+\subsection{Validation and discussion}
 
-In order to be able to conclude that de-anonymization is successful without the knowledge of the ground truth of matching users, a validation procedure is needed. It is proposed to include a dummy user in both database, with the same ratings and same timestamp for 30 movies. A functioning algorithm should identify a very strong match between the two entries.
+In order to be able to conclude that de-anonymization is successful without the knowledge of the ground truth of matching users, a validation procedure is needed. It is proposed to include a dummy user in both database, with the same ratings and same timestamps for 30 movies. A functioning algorithm should identify a very strong match between the two entries.
 
-This was done for our algorithm and the movies were randomly chosen (the popularity of the involved movies has an impact on the scoring function). The results were averaged over 100 realizations and the found match had a mean eccentricity of 60.47. This confirms that entries that match perfectly yield a very high eccentricity. However, such a perfect situation is not expected. Some variability is present in the data, would it be due to user behavior or to noise voluntarily added in the datasets for anonymity purposes. Hence, the robustness to noise is studied later.
+This was done for our algorithm and the movies were randomly chosen. The results were averaged over 100 realizations (because the popularity of the involved movies has an impact on the scoring function) and the found match had a mean eccentricity of 60.47. This confirms that entries that match perfectly yield a very high eccentricity. However, such a perfect situation is not expected. Some variability is present in the data, would it be due to user behavior or to noise voluntarily added in the datasets for anonymity purposes. Hence, the robustness to noise is studied later.
 
 An interesting factor influencing the scoring function is the amount of movies that are common for users in both databases. In the validation step, 30 common movies were injected in the data. However, this is a purely arbitrary value. The impact of the number of movies is depicted in \autoref{fig:n_movies}.
 
@@ -28,23 +28,17 @@ An interesting factor influencing the scoring function is the amount of movies t
 	\label{fig:n_movies}
 \end{figure}
 
-From this analysis, it can be seen that a single rating that has exactly the same values for $\rho$ and $d$ is enough to exceed the threshold $\phi = 1.5$. However, it is intuitively not enough to conclude that the accounts can be linked together, confirming the hypothesis that the previously found matches with $\sigma$ around 2 are not to be trusted.
+From this analysis, it can be seen that a single rating that has exactly the same values for $\rho$ and $d$ is enough to exceed the threshold $\phi = 1.5$. However, it is intuitively not enough to conclude that the accounts can be linked together, confirming the hypothesis that the previously found matches with $\phi$ around 2 are not to be trusted.
 
 \subsection{Robustness analysis}
 
-Because noise is present in the data, the same dummy user is used to assess noise robustness. Instead of including exactly matching records, the ratings and timestamps will be perturbed with uniformly distributed noise. If a movie rating in one database is $\rho$, the corresponding rating in the other database is:
+Because noise is present in the data, the same dummy user is used to assess the noise robustness of the scoring function. Instead of including exactly matching records, the ratings and timestamps will be perturbed with uniformly distributed noise. If a movie rating in one database is $\rho$, the corresponding rating in the other database is:
 
 \begin{equation}
 	\rho_{\text{noisy}} = \rho + \mathcal{U}\left[-\sigma_{\rho}, \sigma_{\rho}\right]
 \end{equation}
 
-Where $\mathcal{U}\left[-\sigma_{\rho}, \sigma_{\rho}\right]$ is a random variable uniformly distributed between $-\sigma_{\rho}$ and $\sigma_{\rho}$. Similarly, noise on the rating timestamp is introduced as:
-
-\begin{equation}
-d_{\text{noisy}} = d + \mathcal{U}\left[-\sigma_{d}, \sigma_{d}\right]
-\end{equation}
-
-The impact of the rating spread $\sigma_{\rho}$ on the eccentricity of the dummy user is shown in \autoref{fig:noise_rating}.
+Where $\mathcal{U}\left[-\sigma_{\rho}, \sigma_{\rho}\right]$ is a random variable uniformly distributed between $-\sigma_{\rho}$ and $\sigma_{\rho}$. The impact of the rating spread $\sigma_{\rho}$ on the eccentricity of the dummy user is shown in \autoref{fig:noise_rating}, where the eccentricity was again computed as a mean over 100 realizations.
 
 \begin{figure}[h]
 	\centering
@@ -53,11 +47,19 @@ The impact of the rating spread $\sigma_{\rho}$ on the eccentricity of the dummy
 	\label{fig:noise_rating}
 \end{figure}
 
+Similarly, noise on the rating timestamp is introduced as:
+
+\begin{equation}
+d_{\text{noisy}} = d + \mathcal{U}\left[-\sigma_{d}, \sigma_{d}\right]
+\end{equation}
+
 The impact of the timestamp spread $\sigma_{d}$ on the eccentricity of the dummy user is shown in \autoref{fig:noise_ts}.
 
 \begin{figure}[h]
 	\centering
 	\input{img/noise_ts.tex}
-	\caption{Influence of noisy time stamps on the eccentricity of a match.}
+	\caption{Influence of noisy timestamps on the eccentricity of a match.}
 	\label{fig:noise_ts}
 \end{figure}
+
+These Figures highlight the fact that the eccentricity is still at a significantly high value in the presence of noise on the input data $\rho$ and $d$. It can be concluded that the metric having the most influence on the eccentricity is the amount of common movies for the two considered users. Regardless of the ratings and timestamps, two profiles are likely to be linked if they share reviews for several unpopular movies.

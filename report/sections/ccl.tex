@@ -1,5 +1,12 @@
 \section{Conclusion}
 
-The famous Netflix attack was reproduced on a subset of the Netflix and the MovieLens datasets. Several matches with an eccentricity higher than FILL were found, which are lower values than was found in the original attack. 
+The famous Netflix attack was reproduced on a subset of the Netflix and the MovieLens datasets. Several matches with an eccentricity higher than 7 were found.
 
-To validate the method, a fake entry was added in both datasets and the corresponding eccentricity was FILL. 
+To validate the method, a fake entry was added in both datasets and the corresponding eccentricity was about 60 when both the ratings and timestamps were exactly the same. In the presence of noise, even very strong noise, the eccentricity stays high. The highest eccentricity that was found in the Netflix and MovieLens subsets was only about 8.5. In the light of the validation step, statistical quasi-certainty of de-anonymization can not be concluded. The original Netflix attack found matches with eccentricities of 18 and 25, much closer to the observed values for the dummy user.
+
+\newpage
+\paragraph{Possible improvements} \mbox{}
+
+Above all, it would be necessary to run the algorithm on the whole datasets. Because of a lack of computing power, subsets that represent only 0.04\% of the possible user combinations was used. This low amount was enough to occupy more than 10\si{\giga\byte} of RAM and take a significant amount of time to be processed. Several matches with high $\phi$ were possibly missed.
+
+Next, the scoring function could be more finely tuned. The parameters $\phi$, $d_0$ and $\rho_0$ were fixed on the basis on the original Netflix attack but their impact was not studied. The scoring function could also be modified so that the error on the ratings and the timestamps have more impact on the final $Score$ value.

@@ -16,13 +16,13 @@ The computer-aided attacks, being able to push such results to a much larger sca
 
 The attack that will be reproduced is the one presented in \cite{netflix}, an example of similarity matching. In this paper, researchers attacked a dataset released by Netflix in the context of a contest to improve their recommendation system. The 100 millions movie ratings by over 480,000 users were correlated to another movie rating database: the Internet Movie Database (IMDb). The goal was to link together private Netflix accounts and public IMDb accounts based on the published ratings. In a very small sample of the IMDb (50 users only), 2 users of the Netflix dataset were identified with statistical quasi-certainty. As the authors summarized, given a few of an user's reviews that he chose to make \textit{public}, their algorithm is able to access all of his \textit{private} Netflix ratings. 
 
-The algorithm is based on a similarity measure denoted $Sim$. It is defined, for two records $r_1$ and $r_2$, with $supp$ denoting the non-null attributes of a record:
+The algorithm is based on the idea of a similarity measure denoted $Sim$. It is introduced, for two records $r_1$ and $r_2$, with $supp$ denoting the non-null attributes of a record:
 
 \begin{equation}
 	Sim(r_1, r_2) = \frac{\sum Sim_{\text{cos}}(r_{1i}, r_{2i})}{\lvert supp(r_1) \cup supp(r_2) \rvert}
 \end{equation} 
 
-With $Sim_{\text{cos}}$ denoting the cosine similarity measure, the function $Sim$ maps the records $r_1$ and $r_2$ to an interval $[0,1]$, representing the notion of them being similar. This concept now needs to be adapted to the specific content of a movie review dataset. In particular, the scoring function needs to give higher importance to statistically rare attributes. Indeed, a review on "The Longest Most Meaningless Movie in the World\footnote{See its Wikipedia page: \url{https://en.wikipedia.org/wiki/The_Longest_Most_Meaningless_Movie_in_the_World}}" helps identify a user much more than the knowledge of the fact that he liked the last episode of "Game of Thrones". Also, the two pieces of information that are available for a given review are the score given by the user and the time-stamp of the rating. The final scoring function that was used in \cite{netflix} is:
+With $Sim_{\text{cos}}$ denoting the cosine similarity measure, the function $Sim$ maps the records $r_1$ and $r_2$ to an interval $[0,1]$, representing the notion of them being similar. This concept now needs to be adapted to the specific content of a movie review dataset. In particular, the scoring function needs to give higher importance to statistically rare attributes. Indeed, a review on "The Longest Most Meaningless Movie in the World\footnote{See its Wikipedia page: \url{https://en.wikipedia.org/wiki/The_Longest_Most_Meaningless_Movie_in_the_World}}" helps to uniquely identify a user much more than the knowledge of the fact that he liked the last episode of "Game of Thrones". Also, the two pieces of information that are available for a given review are the score given by the user and the timestamp of the rating. The final scoring function that was used in \cite{netflix} is:
 
 \begin{equation}\label{eq:score}
 	Score(r,aux) = \sum_{i \in supp(aux)} \frac{1}{\log\lvert supp(i) \rvert} \left( e^{-\frac{ \lvert \rho_i - \rho_i'  \rvert}{\rho_0}} + e^{-\frac{\lvert d_i - d_i' \rvert}{d_0}}\right)
@@ -38,19 +38,7 @@ The fact whether a match has been found does not rely solely on the search for t
 
 Where $S_1$ and $S_2$ denote respectively the best and second best score for a record $r$, and $\sigma_S$ denotes the standard deviation of all the scores related to the record $r$. It was proposed in \cite{netflix} that a match is considered to be found if $\phi > 1.5$. It is worth noting that the two matches with the 50 samples from IMDb had an eccentricity of respectively 28 and 15. These especially high numbers lead to the belief that two matches were found with statistical quasi-certainty.
 
-In \cite{netflix-analytic}, theorems that formally demonstrate why the scoring expressed by \autoref{eq:score} works on the Netflix dataset were introduced. In addition to providing a mathematical framework, they propose another scoring algorithm, slightly less performing but based on more general assumptions.
- 
-%In \cite{netflix-analytic}, theorems that formally demonstrate why the scoring expressed by \autoref{eq:score} works on the Netflix dataset were introduced. In addition to providing a mathematical framework, they propose another scoring algorithm, slightly less performing but based on more general assumptions. It is based on another similarity measure that is now asymmetrical, and that will be denoted $Sim2$: 
-%
-%\begin{equation}\label{eq:sim2}
-%Sim2(r_1, r_2) = \frac{1}{\lvert supp(r_1) \rvert} \sum_{i \in supp(r_1)} T(r_1, r_2) = \frac{1}{\lvert supp(r_1) \rvert} \sum_{i \in supp(r_1)} \left( 1 - \frac{\lvert r_1(i) -r_2(i)}{p_i} \right)
-%\end{equation} 
-%
-%In \autoref{eq:sim2}, $p$ is the maximum difference value between the values of the $i$\textsuperscript{th} column. It is used to scale the values of $Sim2$ to $[0,1]$. Then, the scoring is defined as:
-%
-%\begin{equation}\label{eq:score}
-%Score(r,aux) = \sum_{i \in supp(aux)} \frac{1}{\log\lvert supp(i) \rvert} \frac{T(r,aux(i))}{m}
-%\end{equation}
+In \cite{netflix-analytic}, theorems that formally demonstrate why the scoring expressed by \autoref{eq:score} works on the Netflix dataset were introduced. In addition to providing a theoretical framework, they propose another scoring algorithm, slightly less performing but based on more general assumptions.
 
 In both \cite{netflix} and \cite{netflix-analytic}, the matching algorithm is the same (only the metrics that are used differ) and it is summarized in \autoref{alg:algo}.
 

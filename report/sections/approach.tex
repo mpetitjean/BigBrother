@@ -11,7 +11,7 @@ However, several differences with the original paper are to be highlighted. Firs
 	\item the terms and conditions of IMDb prohibit the usage of "data mining, robots, screen scraping, or similar data gathering and extraction tools”\footnote{see \url{https://www.imdb.com/conditions}}. It can be suspected that it is the reason only 50 entries we used in the original attack. 
 \end{itemize}
 
-As a workaround, we propose to use the MovieLens dataset as auxiliary information. MovieLens is a web-based movie recommender system that makes its database available for research \cite{movielens-db}. This database has already been used in privacy-related research, such as \cite{movielens}. As opposed to the IMDb case, the "anonymous" user IDs are consistent across all the movie ratings that are registered, which makes it suitable for the user re-identification. Also, it is the occasion to test another dataset against the Netflix one.
+As a workaround, it is proposed to use the MovieLens dataset as auxiliary information. MovieLens is a web-based movie recommender system that makes its database available for research \cite{movielens-db}. This database has already been used in privacy-related research, such as \cite{movielens}. As opposed to the IMDb case, the "anonymous" user IDs are consistent across all the movie ratings that are registered, which makes it suitable for the user re-identification. Also, it is the occasion to test another dataset against the Netflix one.
 
 After the raw implementation of the matching algorithm, a verification procedure is proposed to assess its robustness. Indeed, it is needed to validate the algorithm without knowing the ground truth of the matching users.  
 
@@ -23,7 +23,7 @@ On one hand, the Netflix dataset contains over 100 million ratings from 480,000 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=.9\linewidth]{img/processing.pdf}
+	\includegraphics[width=\linewidth]{img/processing.pdf}
 	\caption{Data reshaping of the Netflix dataset.}
 	\label{fig:nf-struct}
 \end{figure}
@@ -33,7 +33,7 @@ After the reshaping process, useless entries from both database were removed to 
 \begin{itemize}
 	\item Out-of-bounds timestamps: according to its ReadMe, the MovieLens database has records from ratings performed between January 09, 1995 and March 31, 2015. The Netflix database only ranges from October 1998 to December 2005, so that many ratings can be eliminated. The amount of distinct users from MovieLens drops from 138,493 to 52,875.
 	
-	\item Isolated movie: a movie rating is removed from one database if the movie is not present in the other database as it would not taken into account in the scoring function. A movie was identified by its title and release date to filter only those appearing in both datasets\footnote{Few special cases were also discarded, for example the fact that two movies named \textit{Hamlet} were released in 2000, so that it was not possible to differentiate between them.}. There were around 5800 movies that were rated in both datasets (from the original 17,700 of Netflix).
+	\item Isolated movie: a movie rating is removed from one database if it is not present in the other database. (it would not be taken into account in the scoring function anyway). A movie was identified by its title and release date to filter only those appearing in both datasets\footnote{Few special cases were also discarded, for example the fact that two movies named \textit{Hamlet} were released in 2000, so that it was not possible to differentiate between them.}. There were around 5800 movies that were rated in both datasets (from the original 17,700 of Netflix).
 \end{itemize}
 
 Ultimately, the movie IDs needed to be made consistent between the two datasets to allow for proper implementation of the scoring function. Indeed, movies were not given the same \texttt{movieID} in both datasets.

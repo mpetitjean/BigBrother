@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+
+\begin{axis}[%
+height = .3\textheight,
+width=\linewidth,
+ylabel=Eccentricity $\phi$,
+%ymin = 0,
+%ymax = 30,
+xmin = 0,
+xmax = 90,
+xlabel = Timestamp spread $\sigma_{d}$,
+]
+\addplot [blue, only marks] table [col sep=comma,y index = {1}, x index = {0}]{data/noisy_dates.csv};
+\end{axis}
+\end{tikzpicture}%
+%\end{document}

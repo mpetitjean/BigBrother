@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+
+\begin{axis}[%
+height = .3\textheight,
+width=\linewidth,
+ylabel=Eccentricity $\phi$,
+%ymin = 0,
+%ymax = 30,
+xmin = 0,
+xmax = 5,
+xlabel = Rating spread $\sigma_{\rho}$,
+]
+\addplot [blue, only marks] table [col sep=comma,y index = {1}, x index = {0}]{data/noisy_ratings.csv};
+\end{axis}
+\end{tikzpicture}%
+%\end{document}
