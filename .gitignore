@@ -126,5 +126,6 @@ ENV/
 *.mtc1
 *.out
 *.synctex.gz
+*.nav
 
 !report/data/*

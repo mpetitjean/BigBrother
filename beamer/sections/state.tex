@@ -1,2 +1,49 @@
-\begin{frame}{State of the art}
+\begin{frame}{Context}
+	
 \end{frame}
+
+
+\begin{frame}{Matching}
+	\textbf{Similarity matching:}
+
+	\begin{equation*}
+	Sim(r_1, r_2) = \frac{\sum Sim_{\text{cos}}(r_{1i}, r_{2i})}{\lvert supp(r_1) \cup supp(r_2) \rvert}
+	\end{equation*} 
+
+	Adapted to the dataset: rating $\rho$ and timestamp $d$, giving more value to statistically rare elements.
+
+	\begin{equation*}
+	Score(r,aux) = \sum_{i \in supp(aux)} \frac{1}{\log\lvert supp(i) \rvert} \left( e^{-\frac{ \lvert \rho_i - \rho_i'  \rvert}{\rho_0}} + e^{-\frac{\lvert d_i - d_i' \rvert}{d_0}}\right)
+	\end{equation*}
+\end{frame}
+
+\begin{frame}{Matching}	
+	\begin{columns}
+		\begin{column}{.6\linewidth}
+			
+		\begin{algorithmic}[1]
+		\For {each record $r_i$ in $R$}
+		\For {each entry $aux_i$ in $aux$}
+		\State Compute $Score(r_i,aux_i)$
+		\EndFor
+		\State Compute $\sigma_S$ = \texttt{stdev(}$Score\texttt{)}$
+		\State Find $S_1 = \max(Score(r_i, aux))$
+		\State Find $S_2 = \max(Score(r_i, aux) \textbackslash \{S_1\})$
+		\State Compute $\phi = (S_1-S_2)/\sigma_S$
+		\If {$\phi$ > 1.5}
+		\State Match found !
+		\EndIf
+		\EndFor
+	\end{algorithmic}
+		\end{column}
+	\begin{column}{.4\linewidth}
+		\begin{equation*}
+		\phi = \frac{S_1-S_2}{\sigma_S}
+		\end{equation*}
+		
+	\end{column}
+	\end{columns}
+
+\end{frame}
+
+
