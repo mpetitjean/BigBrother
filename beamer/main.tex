@@ -1,0 +1,155 @@
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice. 
+\documentclass[english,10pt]{beamer}
+\usepackage{currfile}
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage{lmodern} 
+%\usepackage{cmbright} % computer modern font sans serif
+\usepackage{graphicx} % Allows including images
+\usepackage{mathtools}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{standalone}
+\usepackage{xcolor}
+\usepackage{transparent}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{plotmarks}
+\usepgfplotslibrary{units}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{patchplots}
+\usepackage{grffile}
+\usepackage{tikzscale}
+
+\makeatletter
+\pgfplotsset{
+  unit code/.code 2 args=
+    \begingroup
+    \protected@edef\x{\endgroup\si{#2}}\x
+} 
+\makeatother
+% There are many different themes available for Beamer. A comprehensive
+% list with examples is given here:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+% You can uncomment the themes below if you would like to use a different
+% one:
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme[secheader]{Boadilla}
+%\usetheme{boxes}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{CambridgeUS}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+%\usecolortheme{dolphin}
+\usefonttheme{serif}
+
+%\usepackage{mathpazo}
+%\usepackage{pxfonts}
+%\usepackage{eulervm}
+
+\title[ELEC--Y591]{Project presentation}
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+% A subtitle is optional and this may be deleted
+\subtitle{\texorpdfstring{Machine Learning and Big Data Processing(\textsc{ELEC--Y591})}{(ELEC--Y591)}}
+
+\author[Bruface]{Cédric~\textsc{Hannotier} \and Mathieu~\textsc{Petitjean} \and Hasan Can \textsc{Yildirim}}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\iffalse\institute[ULB]% (optional, but mostly needed)
+{%
+  Brussels Faculty of Engineering}
+% - Use the \inst command only if there are several affiliations.
+% - Keep it simple, no one is interested in your street address.
+\fi
+\date{\today}
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+
+\subject{}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+%\pgfdeclareimage[height=0.5cm]{university-logo}{logoulbpoly}
+%\logo{\pgfuseimage{university-logo}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}%
+    \tableofcontents[currentsection,subsectionstyle=show/show/hide,subsubsectionstyle=show/show/hide/hide]%
+  \end{frame}
+}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/show/hide/hide]
+  \end{frame}
+}
+% Let's get started
+\defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section[]{State of the art}
+\input{state.tex}
+
+\section[]{Approach}
+\input{approach.tex}
+
+\section[]{Results}
+\input{results.tex}
+
+
+
+
+
+\end{document}
