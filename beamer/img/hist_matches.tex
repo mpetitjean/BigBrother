@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+
+\begin{axis}[%
+ybar,
+height = .7\textheight,
+width=\linewidth,
+ylabel=Amount of matches,
+ymin = 0,
+ymax = 80,
+xmin = 1.5,
+xmax = 8.5,
+xlabel = Eccentricity $\phi$,
+xtick={1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5},
+]
+\addplot +[
+	hist={
+		bins=56,
+	}  
+] table [col sep=comma,y index = {0}]{data/matches.csv};
+\end{axis}
+\end{tikzpicture}%
+%\end{document}

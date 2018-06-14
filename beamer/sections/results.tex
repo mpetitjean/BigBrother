@@ -1,0 +1,66 @@
+\begin{frame}{Matches}
+\begin{block}{}
+\begin{itemize}
+	\item \num{3600} Netflix and \num{3000} MovieLens users
+	\item a few more than 800 matches, 5 with $\phi>7$
+\end{itemize}
+\end{block}
+\begin{figure}[H]
+	\centering
+	\input{img/hist_matches.tex}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Validation}
+\begin{alertblock}{How to validate the results?}
+	\begin{itemize}
+		\item No knowledge of the ground truth of matching users
+	\end{itemize}
+\end{alertblock}%
+\begin{exampleblock}{Validation procedure}
+	\begin{itemize}
+		\item Put a dummy user in both datasets
+		\item Vary the number of common movies
+		\item Perturb the rating and the timestamp with uniform distributed noise
+	\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Validation}
+\begin{figure}[H]
+	\centering
+	\input{img/n_movies.tex}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Robustness}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
+		\input{img/noise_rating.tex}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\input{img/noise_ts.tex}
+	\end{subfigure}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Conclusion}
+\begin{itemize}
+	\item $\phi_\text{max}\approx \num{8.5}$ while the validation process showed $\phi> 30$
+	\item The original Netflix attack: $\phi_\text{match}=\{18, 25\}$
+\end{itemize}
+
+$\Rightarrow$ cannot conclude statistical quasi-certainty of de-anonymization
+
+\begin{exampleblock}{Possible improvements}
+	\begin{itemize}
+		\item Use more than \SI{0.04}{\percent} of the possible user combinations
+		\item Tuning of the parameters $\phi, d_0, \rho_0$
+		\item Add more features (e.g. movie genres)
+		\item Increase the errors impact on the scoring
+	\end{itemize}
+\end{exampleblock}
+\end{frame}

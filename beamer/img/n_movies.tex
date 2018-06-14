@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+
+\begin{axis}[%
+%height = .3\textheight,
+%width=\linewidth,
+ylabel=Eccentricity $\phi$,
+ymin = 0,
+%ymax = 30,
+xmin = 0,
+xmax = 30,
+xlabel = Amount of common movies,
+]
+\addplot [blue, only marks] table [col sep=comma,y index = {0}, x expr=\coordindex]{data/n_movies.csv};
+\addplot [mark=none, dashed, black] coordinates {(-2,1.5) (32,1.5)};
+\end{axis}
+\end{tikzpicture}%
+%\end{document}
