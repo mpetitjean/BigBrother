@@ -129,3 +129,4 @@ ENV/
 *.nav
 
 !report/data/*
+!beamer/data/*
