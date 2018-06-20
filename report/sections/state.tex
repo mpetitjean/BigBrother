@@ -2,7 +2,7 @@
 
 \subsection{De-anonymization attacks}
 
-One of the most mentioned de-anonymization deeds dates back to 2006, when New York Times journalists identified Thelma Arnold in the "anonymized" search queries released by AOL for research purposes \cite{nytimes}. By manually searching in the 20 millions search queries coming from 657,000 users, the reporters could tie Arnold's identity to some quite embarrassing queries.
+One of the most mentioned de-anonymization deeds dates back to 2006, when The New York Times journalists identified Thelma Arnold in the "anonymized" search queries released by AOL for research purposes \cite{nytimes}. By manually searching in the 20 million search queries coming from 657,000 users, the reporters could tie Arnold's identity to some quite embarrassing queries.
 
 The computer-aided attacks, being able to push such results to a much larger scale, can be separated in several categories depending on their approach \cite{survey}. The two most represented methods are:
 
@@ -28,7 +28,7 @@ With $Sim_{\text{cos}}$ denoting the cosine similarity measure, the function $Si
 	Score(r,aux) = \sum_{i \in supp(aux)} \frac{1}{\log\lvert supp(i) \rvert} \left( e^{-\frac{ \lvert \rho_i - \rho_i'  \rvert}{\rho_0}} + e^{-\frac{\lvert d_i - d_i' \rvert}{d_0}}\right)
 \end{equation}
 
-In the $Score$ function that compares a record $r$ and auxiliary information $aux$, $\rho$ and $\rho'$ denote the score given to the same movie, while $d$ and $d'$ refer to the date of the rating. $\rho_0$ and $d_0$ are constants empirically determined to respectively 1.5 and 30. The closest the ratings and the timestamps are, the higher the scoring function will be.
+In the $Score$ function that compares a record $r$ and auxiliary information $aux$, $\rho$ and $\rho'$ denote the rating given to the same movie, while $d$ and $d'$ refer to the date of the rating. $\rho_0$ and $d_0$ are constants empirically determined to respectively 1.5 and 30. The closest the ratings and the timestamps are, the higher the scoring function will be.
 
 The fact whether a match has been found does not rely solely on the search for the entry in $aux$ that has the highest score. Indeed, this only indicates which entry is the most similar but does not take into account how strong is the similarity. This is managed by imposing that two entries from $r$ and $aux$ are considered a match only if the difference between the best and second-best scores is higher than a threshold, referred to as the eccentricity $\phi$. Mathematically, it is defined as:
 

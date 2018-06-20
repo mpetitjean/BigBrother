@@ -28,12 +28,12 @@ On one hand, the Netflix dataset contains over 100 million ratings from 480,000 
 	\label{fig:nf-struct}
 \end{figure}
 
-After the reshaping process, useless entries from both database were removed to make the score computation faster later on. Entries can be discarded for different reasons:
+After the reshaping process, useless entries from both datasets were removed to make the score computation faster later on. Entries can be discarded for different reasons:
 
 \begin{itemize}
 	\item Out-of-bounds timestamps: according to its ReadMe, the MovieLens database has records from ratings performed between January 09, 1995 and March 31, 2015. The Netflix database only ranges from October 1998 to December 2005, so that many ratings can be eliminated. The amount of distinct users from MovieLens drops from 138,493 to 52,875.
 	
-	\item Isolated movie: a movie rating is removed from one database if it is not present in the other database. (it would not be taken into account in the scoring function anyway). A movie was identified by its title and release date to filter only those appearing in both datasets\footnote{Few special cases were also discarded, for example the fact that two movies named \textit{Hamlet} were released in 2000, so that it was not possible to differentiate between them.}. There were around 5800 movies that were rated in both datasets (from the original 17,700 of Netflix).
+	\item Isolated movie: a movie rating is removed from one database if it is not present in the other one. (it would not be taken into account in the scoring function anyway). A movie was identified by its title and release date to filter only those appearing in both datasets\footnote{Few special cases were also discarded, for example the fact that two movies named \textit{Hamlet} were released in 2000, so that it was not possible to differentiate between them.}. There were around 5800 movies that were rated in both datasets (from the original 17,700 of Netflix).
 \end{itemize}
 
 Ultimately, the movie IDs needed to be made consistent between the two datasets to allow for proper implementation of the scoring function. Indeed, movies were not given the same \texttt{movieID} in both datasets.
